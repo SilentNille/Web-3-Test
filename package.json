@@ -1,0 +1,32 @@
+{
+  "name": "web-3-test",
+  "version": "1.0.0",
+  "description": "this repo is for the testing of the rest server and the frontend with selenium and jest",
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --runInBand"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "jest": "^30.2.0",
+    "selenium-webdriver": "^4.36.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.3",
+    "@types/node": "^20.0.0",
+    "@types/selenium-webdriver": "^4.35.1",
+    "chromedriver": "^141.0.4",
+    "eslint-plugin-stylelint": "^0.1.1",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.2.2"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  }
+}
