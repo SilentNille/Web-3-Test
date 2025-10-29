@@ -34,7 +34,14 @@ export class UserManagementPagePOM extends AbstractPage {
         }
         await saveButton.click();
 
-        return true;
+        try {
+            await this.driver.wait(until.stalenessOf(saveButton), 3000);
+            return true;
+        } catch (e) {
+            const cancelButton = await this.driver.findElement(By.id("OpenUserManagementPageListComponentButton"));
+            await cancelButton.click();
+            return false;
+        }
     }
 
     async editUser(userID: string, password: string, newFirstName: string, newLastName: string, isAdmin: boolean): Promise<boolean> {
@@ -65,7 +72,15 @@ export class UserManagementPagePOM extends AbstractPage {
         }
 
         await saveButton.click();
-        return true;
+
+        try {
+            await this.driver.wait(until.stalenessOf(saveButton), 3000);
+            return true;
+        } catch (e) {
+            const cancelButton = await this.driver.findElement(By.id("OpenUserManagementPageListComponentButton"));
+            await cancelButton.click();
+            return false;
+        }
     }
 
     async deleteUser(userID: string): Promise<boolean> {
