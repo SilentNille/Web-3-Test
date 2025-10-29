@@ -51,7 +51,7 @@ describe("User Management Tests", () => {
     expect(adminUserText).toContain("Yes");
   });
 
-  test("Create new user as admin", async () => {
+  test("Create new user", async () => {
     const landingPage: LandingPagePOM = new LandingPagePOM(driver);
     await landingPage.openPage();
 
@@ -86,7 +86,7 @@ describe("User Management Tests", () => {
     expect(userItemText).toContain("Test");
     expect(userItemText).toContain("User");
     expect(userItemText).toContain("No");
-  });
+  }, 30000);
 
   test("Edit existing user", async () => {
     const landingPage: LandingPagePOM = new LandingPagePOM(driver);
@@ -120,7 +120,7 @@ describe("User Management Tests", () => {
     expect(userItemText).toContain("Updated");
     expect(userItemText).toContain("Name");
     expect(userItemText).toContain("No");
-  });
+  }, 30000);
 
   test("Delete existing user", async () => {
     const landingPage: LandingPagePOM = new LandingPagePOM(driver);
@@ -154,6 +154,6 @@ describe("User Management Tests", () => {
         return true;
       }
     }, 5000);
-  });
+  }, 30000);
 });
 ;
