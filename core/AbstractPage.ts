@@ -31,4 +31,9 @@ export abstract class AbstractPage implements IPage {
             return false;
         }
     }
+
+    clickComponentWithIDAndWait(id: string, arg1: string): boolean | PromiseLike<boolean> {
+        this.driver.findElement(By.id(id)).click();
+        return true;
+    }
 }

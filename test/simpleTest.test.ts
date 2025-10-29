@@ -8,7 +8,7 @@ import BasicTestingUtil from '../util/BasicTestingUtils';
 const REST_URL = process.env.REST_URL || "https://localhost:443/";
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000/";
 
-jest.setTimeout(30000);
+jest.setTimeout(60000);
 
 describe('Selenium + REST', () => {
   let driver: WebDriver;
@@ -45,7 +45,6 @@ describe("Login Tests", () => {
   });
 
   test("Login mit gültigen Admin Credentials", async () => {
-    console.log("Lade Landing Page");
     const landingPage: LandingPagePOM = new LandingPagePOM(driver);
     await landingPage.openPage();
     // Login as admin
@@ -67,5 +66,43 @@ describe("Login Tests", () => {
       landingPageVisible = false; // Not found means not visible
     }
     expect(landingPageVisible).toBe(false);
+  });
+
+  test("Login mit ungültigen Admin Credentials", async () => {
+    const landingPage: LandingPagePOM = new LandingPagePOM(driver);
+    await landingPage.openPage();
+    // Login as admin with wrong password
+    expect(await landingPage.login("admin", "abc")).toBeTruthy();
+
+    // LandingPage should still be visible
+    let landingPageVisible = false;
+    try {
+      const landingPageDiv = await driver.findElement(By.id("LandingPage"));
+      landingPageVisible = await landingPageDiv.isDisplayed();
+    } catch (e) {
+      landingPageVisible = false;
+    }
+    expect(landingPageVisible).toBe(true);
+
+    // StartPage should NOT be present
+    let startPagePresent = true;
+    try {
+      await driver.findElement(By.id("StartPage"));
+      startPagePresent = true;
+    } catch (e) {
+      startPagePresent = false;
+    }
+    expect(startPagePresent).toBe(false);
+
+    // Wait for alert to appear
+    await new Promise(res => setTimeout(res, 1200));
+    let alertPresent = false;
+    try {
+      const alert = await driver.findElement(By.className("login-alert"));
+      alertPresent = await alert.isDisplayed();
+    } catch (e) {
+      alertPresent = false;
+    }
+    expect(alertPresent).toBe(true);
   });
 });

@@ -57,9 +57,4 @@ export class LandingPagePOM extends AbstractPage {
 
         return true;
     }
-
-    clickComponentWithIDAndWait(OPEN_LOGIN_DIALOG_BUTTON: string, arg1: string): boolean | PromiseLike<boolean> {
-        this.driver.findElement(By.id(OPEN_LOGIN_DIALOG_BUTTON)).click();
-        return true;
-    }
 }
