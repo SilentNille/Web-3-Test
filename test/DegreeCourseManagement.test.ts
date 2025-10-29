@@ -42,6 +42,20 @@ describe("Degree Course Management Tests", () => {
       "TD"
     );
     expect(creationResult).toBe(true);
+
+    const createdCourseItem = await driver.wait(
+      until.elementLocated(By.id("DegreeCourseItemTest Course")),
+      5000
+    );
+    expect(await createdCourseItem.isDisplayed()).toBe(true);
+
+    const courseItemText = await createdCourseItem.getText();
+    expect(courseItemText).toContain("Test Course");
+    expect(courseItemText).toContain("TC");
+    expect(courseItemText).toContain("Test University");
+    expect(courseItemText).toContain("TU");
+    expect(courseItemText).toContain("Test Department");
+    expect(courseItemText).toContain("TD");
   });
 
   test("Edit existing degree course", async () => {
@@ -74,8 +88,11 @@ describe("Degree Course Management Tests", () => {
     const courseItemText = await updatedCourseItem.getText();
 
     expect(courseItemText).toContain("Updated Course");
+    expect(courseItemText).toContain("UC");
     expect(courseItemText).toContain("Updated University");
+    expect(courseItemText).toContain("UU");
     expect(courseItemText).toContain("Updated Department");
+    expect(courseItemText).toContain("UD");
   }, 30000);
 
   test("Delete existing degree course", async () => {

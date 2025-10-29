@@ -55,13 +55,11 @@ describe("User Management Tests", () => {
     const landingPage: LandingPagePOM = new LandingPagePOM(driver);
     await landingPage.openPage();
 
-    // Login as admin
     expect(await landingPage.login("admin", "123")).toBeTruthy();
 
     const startPage: StartPagePOM = new StartPagePOM(driver);
     await startPage.openUserManagementPage();
 
-    // Create new user
     const userManagementPage = await driver.wait(
       until.elementLocated(By.id("UserManagementPage")),
       5000
@@ -76,6 +74,18 @@ describe("User Management Tests", () => {
       false
     );
     expect(creationResult).toBe(true);
+
+    const createdUserItem = await driver.wait(
+      until.elementLocated(By.id("UserItemtestuser")),
+      5000
+    );
+    expect(await createdUserItem.isDisplayed()).toBe(true);
+
+    const userItemText = await createdUserItem.getText();
+    expect(userItemText).toContain("testuser");
+    expect(userItemText).toContain("Test");
+    expect(userItemText).toContain("User");
+    expect(userItemText).toContain("No");
   });
 
   test("Edit existing user", async () => {
