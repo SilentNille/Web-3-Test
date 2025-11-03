@@ -66,7 +66,7 @@ describe('Kompletter User-Management-Anwendungsfall', () => {
     try {
       await driver.findElement(By.id('OpenUserManagementPageButton'));
       userManagementVisible = true;
-    } catch (e) {
+    } catch (_e) {
       userManagementVisible = false;
     }
     expect(userManagementVisible).toBe(false);

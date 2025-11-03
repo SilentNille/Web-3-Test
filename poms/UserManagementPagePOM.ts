@@ -37,7 +37,7 @@ export class UserManagementPagePOM extends AbstractPage {
         try {
             await this.driver.wait(until.stalenessOf(saveButton), 3000);
             return true;
-        } catch (e) {
+        } catch (_e) {
             const cancelButton = await this.driver.findElement(By.id("OpenUserManagementPageListComponentButton"));
             await cancelButton.click();
             return false;
@@ -76,7 +76,7 @@ export class UserManagementPagePOM extends AbstractPage {
         try {
             await this.driver.wait(until.stalenessOf(saveButton), 3000);
             return true;
-        } catch (e) {
+        } catch (_e) {
             const cancelButton = await this.driver.findElement(By.id("OpenUserManagementPageListComponentButton"));
             await cancelButton.click();
             return false;

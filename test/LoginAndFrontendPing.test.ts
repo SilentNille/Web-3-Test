@@ -5,7 +5,6 @@ import BasicTestingUtil from '../util/BasicTestingUtils';
 // import chrome from 'selenium-webdriver/chrome';
 // import 'chromedriver';
 
-const REST_URL = process.env.REST_URL || "https://localhost:443/";
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000/";
 
 jest.setTimeout(60000);
@@ -62,7 +61,7 @@ describe("Login Tests", () => {
     try {
       const landingPageDiv = await driver.findElement(By.id("LandingPage"));
       landingPageVisible = await landingPageDiv.isDisplayed();
-    } catch (e) {
+    } catch (_e) {
       landingPageVisible = false; // Not found means not visible
     }
     expect(landingPageVisible).toBe(false);
@@ -79,7 +78,7 @@ describe("Login Tests", () => {
     try {
       const landingPageDiv = await driver.findElement(By.id("LandingPage"));
       landingPageVisible = await landingPageDiv.isDisplayed();
-    } catch (e) {
+    } catch (_e) {
       landingPageVisible = false;
     }
     expect(landingPageVisible).toBe(true);
@@ -89,7 +88,7 @@ describe("Login Tests", () => {
     try {
       await driver.findElement(By.id("StartPage"));
       startPagePresent = true;
-    } catch (e) {
+    } catch (_e) {
       startPagePresent = false;
     }
     expect(startPagePresent).toBe(false);
@@ -100,7 +99,7 @@ describe("Login Tests", () => {
     try {
       const alert = await driver.findElement(By.className("login-alert"));
       alertPresent = await alert.isDisplayed();
-    } catch (e) {
+    } catch (_e) {
       alertPresent = false;
     }
     expect(alertPresent).toBe(true);

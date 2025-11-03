@@ -149,7 +149,7 @@ describe("User Management Tests", () => {
       try {
         await driver.findElement(By.id("UserItemtestuser"));
         return false;
-      } catch (e) {
+      } catch (_e) {
         return true;
       }
     }, 5000);
@@ -179,7 +179,7 @@ describe("User Management Tests", () => {
     try {
       await driver.findElement(By.id("UserItemnopassuser"));
       userExists = true;
-    } catch (e) {
+    } catch (_e) {
       userExists = false;
     }
     expect(userExists).toBe(false);
@@ -259,7 +259,7 @@ describe("User Management Tests", () => {
       try {
         await driver.findElement(By.id("UserItemduplicateuser"));
         return false;
-      } catch (e) {
+      } catch (_e) {
         return true;
       }
     }, 5000);
@@ -344,7 +344,7 @@ describe("User Management Tests", () => {
       try {
         await driver.findElement(By.id("UserItemnewloginuser"));
         return false;
-      } catch (e) {
+      } catch (_e) {
         return true;
       }
     }, 5000);

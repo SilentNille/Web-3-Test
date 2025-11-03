@@ -9,7 +9,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
@@ -17,11 +19,16 @@
     "selenium-webdriver": "^4.36.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.0",
     "@types/jest": "^29.5.3",
     "@types/node": "^20.0.0",
     "@types/selenium-webdriver": "^4.35.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
     "chromedriver": "^141.0.4",
-    "eslint-plugin-stylelint": "^0.1.1",
+    "eslint": "^9.39.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.5.0",
     "ts-jest": "^29.1.0",
     "typescript": "^5.2.2"
   },

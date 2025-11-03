@@ -119,7 +119,7 @@ describe("Degree Course Management Tests", () => {
       try {
         await driver.findElement(By.id("DegreeCourseItemUpdated Course"));
         return false;
-      } catch (e) {
+      } catch (_e) {
         return true;
       }
     }, 5000);
