@@ -11,7 +11,7 @@ describe('Selenium + REST', () => {
   let driver: WebDriver;
 
   beforeAll(async () => {
-    console.log(FRONTEND_URL)
+    console.log("FRONTEND_URL:", FRONTEND_URL);
     driver = await BasicTestingUtil.createWebDriver();
   }, 50000);
 
