@@ -8,18 +8,13 @@ on:
   workflow_dispatch:
 
 env:
-  BACKEND_URL: "http://backend:443"
-  FRONTEND_URL: "http://frontend:3000"
-  REST_URL: "https://backend:443/"
+  BACKEND_URL: "http://localhost:443"
+  FRONTEND_URL: "http://localhost:3000"
+  REST_URL: "https://localhost:443/"
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    # Run job in a container so it can use service names
-    container:
-      image: node:20
-
     services:
       selenium:
         image: selenium/standalone-chrome:latest
@@ -52,20 +47,17 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install curl for health checks
-        run: apt-get update && apt-get install -y curl
-
       - name: Install dependencies
         run: npm ci
 
       - name: Wait for services to be ready
         run: |
           echo "Waiting for backend..."
-          timeout 60 bash -c 'until curl -kf https://backend:443/health; do sleep 2; done' || echo "Backend might not be ready"
+          timeout 60 bash -c 'until curl -k -f https://localhost:443/health || curl -k https://localhost:443; do sleep 2; done' || echo "Backend might not be ready"
           echo "Waiting for frontend..."
-          timeout 60 bash -c 'until curl -f http://frontend:3000; do sleep 2; done' || echo "Frontend might not be ready"
+          timeout 60 bash -c 'until curl -f http://localhost:3000; do sleep 2; done' || echo "Frontend might not be ready"
           echo "Waiting for Selenium..."
-          timeout 60 bash -c 'until curl -f http://localhost:4444/wd/hub/status; do sleep 2; done' || echo "Selenium might not be ready"
+          timeout 60 bash -c 'until curl -f http://localhost:4444/wd/hub/status; do sleep 2; done'
           echo "All services ready"
 
       - name: Run E2E tests
