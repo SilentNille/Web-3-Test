@@ -2,8 +2,6 @@ import 'dotenv/config';
 import { By, until, WebDriver } from 'selenium-webdriver';
 import { LandingPagePOM } from '../poms/LandingPagePOM';
 import BasicTestingUtil from '../util/BasicTestingUtils';
-// import chrome from 'selenium-webdriver/chrome';
-// import 'chromedriver';
 
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000/";
 

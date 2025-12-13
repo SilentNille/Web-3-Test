@@ -61,9 +61,13 @@ export class UserManagementPagePOM extends AbstractPage {
         const isAdminField = await this.driver.findElement(By.id("EditUserComponentEditIsAdministrator"));
         const saveButton = await this.driver.findElement(By.id("EditUserComponentSaveUserButton"));
 
+        await userIdField.clear();
         await userIdField.sendKeys(userID);
+        await firstNameField.clear();
         await firstNameField.sendKeys(newFirstName);
+        await lastNameField.clear();
         await lastNameField.sendKeys(newLastName);
+        await passwordField.clear();
         await passwordField.sendKeys(password);
 
         const isCurrentlyAdmin = await isAdminField.isSelected();

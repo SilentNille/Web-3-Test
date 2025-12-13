@@ -1,0 +1,72 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  BACKEND_URL: "http://backend:443"
+  FRONTEND_URL: "http://frontend:3000"
+  REST_URL: "https://backend:443/"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # Run job in a container so it can use service names
+    container:
+      image: node:20
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+        ports:
+          - 4444:4444
+
+      backend:
+        image: registry.bht-berlin.de:443/phni9317/pwa-rest-server:latest
+        ports:
+          - 443:443
+        credentials:
+          username: phni9317
+          password: ${{ secrets.GITLAB_TOKEN }}
+
+      frontend:
+        image: ghcr.io/silentnille/frontend-image:latest
+        ports:
+          - 3000:3000
+        credentials:
+          username: silentnille
+          password: ${{ secrets.LOGIN_GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install curl for health checks
+        run: apt-get update && apt-get install -y curldependencies && npm ci
+
+      - name: Wait for services to be ready
+        run: |
+          echo "Waiting for backend..."
+          timeout 60 bash -c 'until curl -kf https://backend:443/health; do sleep 2; done' || echo "Backend might not be ready"
+          echo "Waiting for frontend..."
+          timeout 60 bash -c 'until curl -f http://frontend:3000; do sleep 2; done' || echo "Frontend might not be ready"
+          echo "Waiting for Selenium..."
+          timeout 60 bash -c 'until curl -f http://localhost:4444/wd/hub/status; do sleep 2; done' || echo "Selenium might not be ready"
+          echo "All services ready"
+
+      - name: Run E2E tests
+        run: npm test -- --runInBand
+        env:
+          REST_URL: ${{ env.BACKEND_URL }}
+          FRONTEND_URL: ${{ env.FRONTEND_URL }}
