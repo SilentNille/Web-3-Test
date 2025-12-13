@@ -12,11 +12,16 @@ jobs:
       backend:
         image: registry.bht-berlin.de/phni9317/pwa-rest-server:latest
         ports:
-          - 8080:8080
+          - 443:443
+          - 80:80
       frontend:
         image: ghcr.io/silentnille/frontend-image:latest
         ports:
           - 3000:3000
+      selenium:
+        image: selenium/standalone-chrome:latest
+        ports:
+          - 4444:4444
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
