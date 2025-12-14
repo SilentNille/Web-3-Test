@@ -9,6 +9,7 @@ describe("User Management Tests", () => {
   let driver: WebDriver;
 
   beforeAll(async () => {
+    jest.setTimeout(60000);
     driver = await BasicTestingUtil.createWebDriver();
   });
 

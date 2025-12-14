@@ -1,0 +1,53 @@
+services:
+  backend:
+    image: registry.bht-berlin.de/phni9317/pwa-rest-server:latest
+    ports:
+      - "443:443"
+    environment:
+      - DATABASE_URL=mongodb://mongodb:27017/testdb
+    depends_on:
+      - mongodb
+    networks:
+      - test-network
+
+  frontend:
+    image: ghcr.io/silentnille/frontend-image:latest
+    ports:
+      - "80:80"
+    environment:
+      - VITE_BACKEND_URL=https://backend:443
+    depends_on:
+      - backend
+    networks:
+      - test-network
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - test-network
+
+  selenium:
+    image: selenium/standalone-chrome:latest
+    ports:
+      - "4444:4444"
+    shm_size: 4gb
+    networks:
+      - test-network
+
+  tests:
+    build: .
+    environment:
+      - FRONTEND_URL=http://frontend:80
+      - SELENIUM_URL=http://selenium:4444/wd/hub
+    depends_on:
+      - frontend
+      - selenium
+    networks:
+      - test-network
+
+networks:
+  test-network:
+    driver: bridge

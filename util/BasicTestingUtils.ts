@@ -5,13 +5,22 @@ const chrome = require('selenium-webdriver/chrome');
 class BasicTestingUtil {
     static async createWebDriver(): Promise<WebDriver> {
         const options = new chrome.Options()
-            .addArguments("--ignore-certificate-errors")
+            .addArguments("--ignore-certificate-errors", "--headless=new")
 
-        const driver = await new Builder()
+        if (process.env.SELENIUM_URL) {
+            const seleniumServerUrl = process.env.SELENIUM_URL;
+            console.log("Using remote Selenium server at:", seleniumServerUrl);
+            return new Builder()
+                .forBrowser(Browser.CHROME)
+                .setChromeOptions(options)
+                .usingServer(seleniumServerUrl)
+                .build();
+        }
+
+        return await new Builder()
             .forBrowser(Browser.CHROME)
             .setChromeOptions(options)
             .build();
-        return driver;
     }
 }
 

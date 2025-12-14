@@ -9,7 +9,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest --runInBand",
+    "test": "jest --runInBand --detectOpenHandles",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix"
   },
