@@ -3,10 +3,10 @@ name: Start and Test The Application # Name of the GitHub Actions workflow
 on: # Trigger for the workflow
   push: # Run workflow on push events
     branches:
-      - master # Only run on pushes to the 'master' branch
+      - main # Only run on pushes to the 'main' branch
   pull_request: # Run workflow on pull request events
     branches:
-      - master # Only run on pull requests targeting the 'master' branch
+      - main # Only run on pull requests targeting the 'main' branch
 
 jobs: # Define the jobs to run
   start: # Name of the job
