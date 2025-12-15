@@ -20,10 +20,15 @@ jobs: # Define the jobs to run
         image: registry.bht-berlin.de/phni9317/pwa-rest-server:latest # Docker image
         ports:
           - 443:443 # Map port 443 of the container to 443 on the host
+        env:
+          DATABASE_URL: mongodb://mongodb:27017/testdb
       frontend: # Frontend service
         image: ghcr.io/silentnille/frontend-image:latest # Docker image
         ports:
           - 80:80 # Map port again
+        env:
+          VITE_BACKEND_URL: https://backend:443
+          SELENIUM_URL: http://selenium:4444/wd/hub
       selenium: # Selenium service
         image: selenium/standalone-chrome:latest # Docker image
         ports:
