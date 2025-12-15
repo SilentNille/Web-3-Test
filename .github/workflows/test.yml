@@ -9,6 +9,10 @@ jobs: # Define the jobs to run
   start: # Name of the job
     runs-on: ubuntu-latest # Use Ubuntu runner
     services: # Define Docker containers needed for the job
+      mongodb: # MongoDB service
+        image: mongo # Docker image
+        ports:
+          - 27017:27017
       backend: # Backend service
         image: registry.bht-berlin.de/phni9317/pwa-rest-server:latest # Docker image
         ports:
