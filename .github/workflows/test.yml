@@ -37,6 +37,10 @@ jobs: # Define the jobs to run
       - name: Checkout repository # Step 1: Checkout the code
         uses: actions/checkout@v3 # Use the checkout action
 
+      - name: Log in to BHT Docker Registry
+        run: |
+          echo "$GITLAB_TOKEN" | docker login registry.bht-berlin.de -u "phni9317" --password-stdin
+
       - name: Set up Docker Compose # Step 2: Set up Docker Buildx for building images
         uses: docker/setup-buildx-action@v3 # Use Docker Buildx setup action
 
