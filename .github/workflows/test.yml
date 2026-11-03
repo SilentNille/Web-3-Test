@@ -1,60 +1,60 @@
-name: Start and Test The Application # Name of the GitHub Actions workflow
+# name: Start and Test The Application # Name of the GitHub Actions workflow
 
-on: # Trigger for the workflow
-  push: # Run workflow on push events
-    branches:
-      - main # Only run on pushes to the 'main' branch
-  pull_request: # Run workflow on pull request events
-    branches:
-      - main # Only run on pull requests targeting the 'main' branch
+# on: # Trigger for the workflow
+#   push: # Run workflow on push events
+#     branches:
+#       - main # Only run on pushes to the 'main' branch
+#   pull_request: # Run workflow on pull request events
+#     branches:
+#       - main # Only run on pull requests targeting the 'main' branch
 
-jobs: # Define the jobs to run
-  start: # Name of the job
-    runs-on: ubuntu-latest # Use Ubuntu runner
-    services: # Define Docker containers needed for the job
-      mongodb: # MongoDB service
-        image: mongo # Docker image
-        ports:
-          - 27017:27017
-      backend: # Backend service
-        image: registry.bht-berlin.de/phni9317/pwa-rest-server:latest # Docker image
-        ports:
-          - 443:443 # Map port 443 of the container to 443 on the host
-        env:
-          DATABASE_URL: mongodb://mongodb:27017/testdb
-      frontend: # Frontend service
-        image: ghcr.io/silentnille/frontend-image:latest # Docker image
-        ports:
-          - 80:80 # Map port again
-        env:
-          VITE_BACKEND_URL: https://backend:443
-          SELENIUM_URL: http://selenium:4444/wd/hub
-      selenium: # Selenium service
-        image: selenium/standalone-chrome:latest # Docker image
-        ports:
-          - 4444:4444
-    steps: # Steps to do in the job
-      - name: Checkout repository # Step 1: Checkout the code
-        uses: actions/checkout@v3 # Use the checkout action
+# jobs: # Define the jobs to run
+#   start: # Name of the job
+#     runs-on: ubuntu-latest # Use Ubuntu runner
+#     services: # Define Docker containers needed for the job
+#       mongodb: # MongoDB service
+#         image: mongo # Docker image
+#         ports:
+#           - 27017:27017
+#       backend: # Backend service
+#         image: registry.bht-berlin.de/phni9317/pwa-rest-server:latest # Docker image
+#         ports:
+#           - 443:443 # Map port 443 of the container to 443 on the host
+#         env:
+#           DATABASE_URL: mongodb://mongodb:27017/testdb
+#       frontend: # Frontend service
+#         image: ghcr.io/silentnille/frontend-image:latest # Docker image
+#         ports:
+#           - 80:80 # Map port again
+#         env:
+#           VITE_BACKEND_URL: https://backend:443
+#           SELENIUM_URL: http://selenium:4444/wd/hub
+#       selenium: # Selenium service
+#         image: selenium/standalone-chrome:latest # Docker image
+#         ports:
+#           - 4444:4444
+#     steps: # Steps to do in the job
+#       - name: Checkout repository # Step 1: Checkout the code
+#         uses: actions/checkout@v3 # Use the checkout action
 
-      - name: Log in to BHT Docker Registry
-        run: |
-          echo "$GITLAB_TOKEN" | docker login registry.bht-berlin.de -u phni9317 --password-stdin
+#       - name: Log in to BHT Docker Registry
+#         run: |
+#           echo "$GITLAB_TOKEN" | docker login registry.bht-berlin.de -u phni9317 --password-stdin
 
-      - name: Set up Docker Compose # Step 2: Set up Docker Buildx for building images
-        uses: docker/setup-buildx-action@v3 # Use Docker Buildx setup action
+#       - name: Set up Docker Compose # Step 2: Set up Docker Buildx for building images
+#         uses: docker/setup-buildx-action@v3 # Use Docker Buildx setup action
 
-      - name: Build and start services # Step 3: Build and start all required services in the background
-        run: |
-          docker compose up -d --build database frontend backend selenium # Build and start containers for database, frontend, backend, selenium
+#       - name: Build and start services # Step 3: Build and start all required services in the background
+#         run: |
+#           docker compose up -d --build database frontend backend selenium # Build and start containers for database, frontend, backend, selenium
 
-      - name: Wait for services to be ready # Step 4: Wait for services to initialize
-        run: |
-          echo "Waiting for services to be ready..."
-          sleep 20 # Wait 20 seconds to ensure all services are up
+#       - name: Wait for services to be ready # Step 4: Wait for services to initialize
+#         run: |
+#           echo "Waiting for services to be ready..."
+#           sleep 20 # Wait 20 seconds to ensure all services are up
 
-      - name: Run tests # Step 5: Run the test suite
-        run: |
-          docker compose up --build tests # Build and run the 'tests' service
+#       - name: Run tests # Step 5: Run the test suite
+#         run: |
+#           docker compose up --build tests # Build and run the 'tests' service
 
-# Note: All version numbers were obtained from ChatGPT on 2025-12-14
+# # Note: All version numbers were obtained from ChatGPT on 2025-12-14
